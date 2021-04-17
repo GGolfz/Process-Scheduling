@@ -40,26 +40,26 @@ const getSumTime = () => {
   }
   return sum;
 };
-const getReport = (data,ans) => {
-	let sumTR = 0;
-	let sumRS = 0;
-	let report = {};
-	for(let i of data){
-		let last = ans.lastIndexOf(i.name)+1;
-		let tr = last - i.arrive;
-		let rs = tr/i.service;
-		rs = Math.round(rs * 100)/100;
-		sumTR += tr;
-		sumRS += rs;
-		report[i.name] = {'TR':tr,'TR/TS':rs}
-	}
-	let meanTR = sumTR/data.length;
-	let meanRS = sumRS/data.length;
-	meanTR = Math.round(meanTR * 100)/100;
-	meanRS = Math.round(meanRS * 100)/100;
-	report['Mean'] = {'TR':meanTR,'TR/TS':meanRS}
-	console.table(report);
-} 
+const getReport = (data, ans) => {
+  let sumTR = 0;
+  let sumRS = 0;
+  let report = {};
+  for (let i of data) {
+    let last = ans.lastIndexOf(i.name) + 1;
+    let tr = last - i.arrive;
+    let rs = tr / i.service;
+    rs = Math.round(rs * 100) / 100;
+    sumTR += tr;
+    sumRS += rs;
+    report[i.name] = { TR: tr, "TR/TS": rs };
+  }
+  let meanTR = sumTR / data.length;
+  let meanRS = sumRS / data.length;
+  meanTR = Math.round(meanTR * 100) / 100;
+  meanRS = Math.round(meanRS * 100) / 100;
+  report["Mean"] = { TR: meanTR, "TR/TS": meanRS };
+  console.table(report);
+};
 const fcfs = () => {
   let ans = "";
   let temp = getSortArrival();
@@ -69,7 +69,7 @@ const fcfs = () => {
     }
   }
   console.log("First Come First Serve: \t" + ans);
-  getReport(data,ans)
+  getReport(data, ans);
 };
 const roundRobin = (q) => {
   let ans = "";
@@ -116,7 +116,7 @@ const roundRobin = (q) => {
     }
   }
   console.log(`Round Robin (q = ${q}): \t\t` + ans);
-  getReport(data,ans)
+  getReport(data, ans);
 };
 
 const spn = () => {
@@ -144,7 +144,7 @@ const spn = () => {
     }
   }
   console.log("Shortest Process Next: \t\t" + ans);
-  getReport(data,ans)
+  getReport(data, ans);
 };
 
 const srt = () => {
@@ -171,7 +171,7 @@ const srt = () => {
     temp[ind].service -= 1;
   }
   console.log("Shortest Remained Time: \t" + ans);
-  getReport(data,ans)
+  getReport(data, ans);
 };
 
 const hrrn = () => {
@@ -206,7 +206,100 @@ const hrrn = () => {
     }
   }
   console.log("High Response Ratio Next: \t" + ans);
-  getReport(data,ans)
+  getReport(data, ans);
+};
+const feedbackN = (q) => {
+  let quece = [[]];
+  let temp = getSortArrival();
+  let exec = {};
+  let ans = "";
+  let cur = 0;
+  let e;
+  let level = 0;
+  for (let i = 0; i < getSumTime(); i++) {
+    for (let j = 0; j < temp.length; j++) {
+      if (temp[j].arrive == i) {
+        quece[0].push(temp[j].name);
+      }
+    }
+    cur += 1;
+    for (let i = 0; i < quece.length; i++) {
+      if (quece[i].length > 0) {
+        if(!e || cur == 1){
+          e = quece[i][0];
+          level = i;
+        }
+        break;
+      }
+    }
+    ans += e;
+    if (!Object.keys(exec).includes(e)) {
+      exec[e] = 0;
+    }
+    exec[e] += 1;
+    if (cur == q && exec[e] < temp.find((el) => el.name == e).service) {
+      if (level >= quece.length - 1) {
+        quece.push([e]);
+      } else {
+        quece[level + 1].push(e);
+      }
+    }
+    if (cur == q || exec[e] == temp.find((el) => el.name == e).service) {
+      cur = 0;
+      quece[level].shift();
+    } 
+  }
+  console.log(`Feedback (q=${q}): \t\t` + ans);
+  getReport(data, ans);
+};
+const feedback2i = () => {
+  let quece = [[]];
+  let temp = getSortArrival();
+  let q = {};
+  for (let i of temp) {
+    q[i.name] = 1;
+  }
+  let exec = {};
+  let ans = "";
+  let cur = 0;
+  let e;
+  let level = 0;
+  for (let i = 0; i < getSumTime(); i++) {
+    for (let j = 0; j < temp.length; j++) {
+      if (temp[j].arrive == i) {
+        quece[0].push(temp[j].name);
+      }
+    }
+    cur += 1;
+    for (let i = 0; i < quece.length; i++) {
+      if (quece[i].length > 0) {
+        if(!e || cur == 1){
+          e = quece[i][0];
+          level = i;
+        }
+        break;
+      }
+    }
+    ans += e;
+    if (!Object.keys(exec).includes(e)) {
+      exec[e] = 0;
+    }
+    exec[e] += 1;
+    if (cur == q[e] && exec[e] < temp.find((el) => el.name == e).service) {
+      if (level >= quece.length - 1) {
+        quece.push([e]);
+      } else {
+        quece[level + 1].push(e);
+      }
+    }
+    if (cur == q[e] || exec[e] == temp.find((el) => el.name == e).service) {
+      cur = 0;
+      quece[level].shift();
+      q[e] *= 2;
+    } 
+  }
+  console.log(`Feedback (q=2^i): \t\t` + ans);
+  getReport(data, ans);
 };
 
 const main = () => {
@@ -215,5 +308,7 @@ const main = () => {
   spn();
   srt();
   hrrn();
+  feedbackN(1);
+  feedback2i();
 };
 main();
