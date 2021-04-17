@@ -249,7 +249,7 @@ const feedbackN = (q) => {
       quece[level].shift();
     } 
   }
-  console.log(`Feedback (q=${q}): \t\t` + ans);
+  console.log(`Feedback (q=${q}): \t\t\t` + ans);
   getReport(data, ans);
 };
 const feedback2i = () => {
@@ -298,7 +298,7 @@ const feedback2i = () => {
       q[e] *= 2;
     } 
   }
-  console.log(`Feedback (q=2^i): \t\t` + ans);
+  console.log(`Feedback (q=2^i): \t\t\t` + ans);
   getReport(data, ans);
 };
 
