@@ -7,27 +7,22 @@ const data = [
   {
     name: "B",
     arrive: 0,
-    service: 4,
-  },
-  {
-    name: "C",
-    arrive: 3,
-    service: 6,
-  },
-  {
-    name: "D",
-    arrive: 5,
-    service: 2,
-  },
-  {
-    name: "E",
-    arrive: 9,
     service: 3,
   },
   {
-    name: "F",
-    arrive: 10,
-    service: 1,
+    name: "C",
+    arrive: 2,
+    service: 3,
+  },
+  {
+    name: "D",
+    arrive: 4,
+    service: 5,
+  },
+  {
+    name: "E",
+    arrive: 6,
+    service: 7,
   },
 ];
 const getSortArrival = () => {
@@ -204,8 +199,8 @@ const hrrn = () => {
       let maxInd = 0;
       let temp =[];
       for (let j = 0; j < exeList.length; j++) {
-        let ratio = (i - exeList[j].arrive) / exeList[j].service;
-        let maxRatio = (i - exeList[maxInd].arrive) / exeList[maxInd].service;
+        let ratio = (i - exeList[j].arrive) / exeList[j].service + 1;
+        let maxRatio = (i - exeList[maxInd].arrive) / exeList[maxInd].service + 1;
         if (ratio > maxRatio) {
           maxInd = j;
         }
