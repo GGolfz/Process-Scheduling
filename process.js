@@ -77,6 +77,7 @@ const roundRobin = (q) => {
   let execute = {};
   let temp = getSortArrival();
   let exe = 0;
+  let queuePrint = [];
   for (let i = 0; i < getSumTime(); i++) {
     for (let j = 0; j < temp.length; j++) {
       if (temp[j].arrive == i) {
@@ -92,6 +93,7 @@ const roundRobin = (q) => {
       if (!Object.keys(execute).includes(come[0])) {
         execute[come[0]] = 1;
         ans += come[0];
+        queuePrint.push(Array.from(come));
         exe += 1;
         if (exe == q) {
           come.push(come[0]);
@@ -102,6 +104,7 @@ const roundRobin = (q) => {
         if (execute[come[0]] < temp.find((e) => e.name == come[0]).service) {
           execute[come[0]] += 1;
           ans += come[0];
+          queuePrint.push(Array.from(come));
           exe += 1;
           if (exe == q) {
             come.push(come[0]);
@@ -115,8 +118,12 @@ const roundRobin = (q) => {
       }
     }
   }
+  queuePrint.push(Array.from(come));
   console.log(`Round Robin (q = ${q}): \t\t` + ans);
   getReport(data, ans);
+  queuePrint.map((el,index)=>{
+    console.log(index,":",el);
+  })
 };
 
 const spn = () => {
@@ -151,6 +158,7 @@ const srt = () => {
   let ans = "";
   let sort = getSortArrival();
   let temp = [];
+  let queuePrint = [];
   for (let i of sort) {
     temp.push({
       name: i.name,
@@ -162,16 +170,20 @@ const srt = () => {
     let exeList = [];
     for (let j = 0; j < temp.length; j++) {
       if (temp[j].service > 0 && temp[j].arrive <= i) {
-        exeList.push(temp[j]);
+        exeList.push(Object.assign({},temp[j]));
       }
     }
     curE = exeList.sort((a, b) => a.service - b.service);
     ans += curE[0].name;
+    queuePrint.push(Array.from(curE));
     let ind = temp.findIndex((e) => e.name == curE[0].name);
     temp[ind].service -= 1;
   }
   console.log("Shortest Remained Time: \t" + ans);
   getReport(data, ans);
+  queuePrint.map((el,index)=>{
+    console.log(index,":",el);
+  })
 };
 
 const hrrn = () => {
@@ -180,6 +192,7 @@ const hrrn = () => {
   let temp = getSortArrival();
   let past = [];
   let cur = "";
+  let queuePrint = [];
   for (let i = 0; i < getSumTime(); i++) {
     let exeList = [];
     for (let j = 0; j < temp.length; j++) {
@@ -189,13 +202,16 @@ const hrrn = () => {
     }
     if (exe == 0) {
       let maxInd = 0;
+      let temp =[];
       for (let j = 0; j < exeList.length; j++) {
         let ratio = (i - exeList[j].arrive) / exeList[j].service;
         let maxRatio = (i - exeList[maxInd].arrive) / exeList[maxInd].service;
         if (ratio > maxRatio) {
           maxInd = j;
         }
+        temp.push(Object.assign({},{name:exeList[j].name,ratio}))
       }
+      queuePrint.push(Object.assign({},{time:i,data:Array.from(temp)}));
       cur = exeList[maxInd].name;
       exe = exeList[maxInd].service;
     }
@@ -207,15 +223,20 @@ const hrrn = () => {
   }
   console.log("High Response Ratio Next: \t" + ans);
   getReport(data, ans);
+  queuePrint.map((el)=>{
+    console.log(el.time,':',el.data)
+  })
 };
 const feedbackN = (q) => {
   let quece = [[]];
+  let queuePrint = [];
   let temp = getSortArrival();
   let exec = {};
   let ans = "";
   let cur = 0;
   let e;
   let level = 0;
+  let tempQ = []
   for (let i = 0; i < getSumTime(); i++) {
     for (let j = 0; j < temp.length; j++) {
       if (temp[j].arrive == i) {
@@ -233,6 +254,11 @@ const feedbackN = (q) => {
       }
     }
     ans += e;
+    tempQ =[];
+    quece.map(e=>{
+      tempQ.push(Array.from(e));
+    })
+    queuePrint.push(Array.from(tempQ));
     if (!Object.keys(exec).includes(e)) {
       exec[e] = 0;
     }
@@ -249,11 +275,20 @@ const feedbackN = (q) => {
       quece[level].shift();
     } 
   }
+  tempQ =[];
+  quece.map(e=>{
+    tempQ.push(Array.from(e));
+  })
+  queuePrint.push(Array.from(tempQ));
   console.log(`Feedback (q=${q}): \t\t\t` + ans);
   getReport(data, ans);
+  queuePrint.map((el,index)=>{
+    console.log(index,":",el);
+  })
 };
 const feedback2i = () => {
   let quece = [[]];
+  let queuePrint = [];
   let temp = getSortArrival();
   let q = {};
   for (let i of temp) {
@@ -264,6 +299,7 @@ const feedback2i = () => {
   let cur = 0;
   let e;
   let level = 0;
+  let tempQ = [];
   for (let i = 0; i < getSumTime(); i++) {
     for (let j = 0; j < temp.length; j++) {
       if (temp[j].arrive == i) {
@@ -281,6 +317,11 @@ const feedback2i = () => {
       }
     }
     ans += e;
+    tempQ =[];
+    quece.map(e=>{
+      tempQ.push(Array.from(e));
+    })
+    queuePrint.push(Array.from(tempQ));
     if (!Object.keys(exec).includes(e)) {
       exec[e] = 0;
     }
@@ -298,8 +339,16 @@ const feedback2i = () => {
       q[e] *= 2;
     } 
   }
+  tempQ =[];
+  quece.map(e=>{
+    tempQ.push(Array.from(e));
+  })
+  queuePrint.push(Array.from(tempQ));
   console.log(`Feedback (q=2^i): \t\t\t` + ans);
   getReport(data, ans);
+  queuePrint.map((el,index)=>{
+    console.log(index,":",el);
+  })
 };
 
 const main = () => {
