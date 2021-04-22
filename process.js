@@ -91,7 +91,9 @@ const roundRobin = (q) => {
         queuePrint.push(Array.from(come));
         exe += 1;
         if (exe == q) {
+          if(!(execute[come[0]] == temp.find(e => e.name == come[0]).service)){
           come.push(come[0]);
+          }
           exe = 0;
           come.shift();
         }
@@ -102,7 +104,9 @@ const roundRobin = (q) => {
           queuePrint.push(Array.from(come));
           exe += 1;
           if (exe == q) {
+            if(!(execute[come[0]] == temp.find(e => e.name == come[0]).service)){
             come.push(come[0]);
+            }
             exe = 0;
             come.shift();
           }
