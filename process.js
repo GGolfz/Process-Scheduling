@@ -249,14 +249,14 @@ const feedbackN = (q) => {
       }
     }
     cur += 1;
-    for (let i = 0; i < quece.length; i++) {
-      if (quece[i].length > 0) {
+    for (let k = 0; k < quece.length; k++) {
+      if (quece[k].length > 0) {
         if(!e || cur == 1){
-          if(countQ(quece) > 1 && cur == 1 && quece[i][0] == e){
+          if(countQ(quece) > 1 && cur == 1 && quece[k][0] == e){
             continue;
           }
-          e = quece[i][0];
-          level = i;
+          e = quece[k][0];
+          level = k;
         }
         break;
       }
@@ -315,14 +315,14 @@ const feedback2i = () => {
       }
     }
     cur += 1;
-    for (let i = 0; i < quece.length; i++) {
-      if (quece[i].length > 0) {
+    for (let k = 0; k < quece.length; k++) {
+      if (quece[k].length > 0) {
         if(!e || cur == 1){
-          if(countQ(quece) > 1 && cur == 1 && quece[i][0] == e){
+          if(countQ(quece) > 1 && cur == 1 && quece[k][0] == e){
             continue;
           }
-          e = quece[i][0];
-          level = i;
+          e = quece[k][0];
+          level = k;
         }
         break;
       }
@@ -363,12 +363,12 @@ const feedback2i = () => {
 };
 
 const main = () => {
-  fcfs();
-  roundRobin(1);
-  spn();
-  srt();
-  hrrn();
-  feedbackN(1);
+  // fcfs();
+  // roundRobin(1);
+  // spn();
+  // srt();
+  // hrrn();
+  // feedbackN(1);
   feedback2i();
 };
 main();
