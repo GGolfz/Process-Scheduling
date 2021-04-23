@@ -2,28 +2,38 @@ const data = [
   {
     name: "A",
     arrive: 0,
-    service: 3,
-  },
-  {
-    name: "B",
-    arrive: 2,
-    service: 6,
-  },
-  {
-    name: "C",
-    arrive: 4,
-    service: 4,
-  },
-  {
-    name: "D",
-    arrive: 6,
     service: 5,
   },
   {
-    name: "E",
-    arrive: 8,
+    name: "B",
+    arrive: 1,
+    service: 7,
+  },
+  {
+    name: "C",
+    arrive: 2,
     service: 2,
   },
+  {
+    name: "D",
+    arrive: 5,
+    service: 1,
+  },
+  {
+    name: "E",
+    arrive: 9,
+    service: 5,
+  },
+  {
+    name: "F",
+    arrive: 10,
+    service: 2,
+  },
+  {
+    name: "G",
+    arrive: 18,
+    service: 2
+  }
 ];
 const getSortArrival = () => {
   return data.sort((a, b) => a.arrive - b.arrive);
@@ -363,12 +373,12 @@ const feedback2i = () => {
 };
 
 const main = () => {
-  // fcfs();
-  // roundRobin(1);
-  // spn();
-  // srt();
-  // hrrn();
-  // feedbackN(1);
+  fcfs();
+  roundRobin(1);
+  spn();
+  srt();
+  hrrn();
+  feedbackN(1);
   feedback2i();
 };
 main();
