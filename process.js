@@ -2,27 +2,27 @@ const data = [
   {
     name: "A",
     arrive: 0,
-    service: 5,
+    service: 3,
   },
   {
     name: "B",
-    arrive: 0,
-    service: 3,
+    arrive: 2,
+    service: 6,
   },
   {
     name: "C",
-    arrive: 2,
-    service: 3,
+    arrive: 4,
+    service: 4,
   },
   {
     name: "D",
-    arrive: 4,
+    arrive: 6,
     service: 5,
   },
   {
     name: "E",
-    arrive: 6,
-    service: 7,
+    arrive: 8,
+    service: 2,
   },
 ];
 const getSortArrival = () => {
@@ -117,9 +117,9 @@ const roundRobin = (q) => {
   queuePrint.push(Array.from(come));
   console.log(`Round Robin (q = ${q}): \t\t` + ans);
   getReport(data, ans);
-  // queuePrint.map((el,index)=>{
-  //   console.log(index,":",el);
-  // })
+  queuePrint.map((el,index)=>{
+    console.log(index,":",el);
+  })
 };
 
 const spn = () => {
@@ -223,6 +223,15 @@ const hrrn = () => {
     console.log(el.time,':',el.data)
   })
 };
+const countQ = (q) => {
+  let c = 0;
+  q.map(e=>{
+    e.map(s=>{
+      c+=1;
+    })
+  })
+  return c;
+}
 const feedbackN = (q) => {
   let quece = [[]];
   let queuePrint = [];
@@ -243,6 +252,9 @@ const feedbackN = (q) => {
     for (let i = 0; i < quece.length; i++) {
       if (quece[i].length > 0) {
         if(!e || cur == 1){
+          if(countQ(quece) > 1 && cur == 1 && quece[i][0] == e){
+            continue;
+          }
           e = quece[i][0];
           level = i;
         }
@@ -306,6 +318,9 @@ const feedback2i = () => {
     for (let i = 0; i < quece.length; i++) {
       if (quece[i].length > 0) {
         if(!e || cur == 1){
+          if(countQ(quece) > 1 && cur == 1 && quece[i][0] == e){
+            continue;
+          }
           e = quece[i][0];
           level = i;
         }
@@ -348,12 +363,12 @@ const feedback2i = () => {
 };
 
 const main = () => {
-  // fcfs();
+  fcfs();
   roundRobin(1);
-  // spn();
-  // srt();
-  // hrrn();
-  // feedbackN(1);
-  // feedback2i();
+  spn();
+  srt();
+  hrrn();
+  feedbackN(1);
+  feedback2i();
 };
 main();
