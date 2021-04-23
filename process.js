@@ -77,10 +77,10 @@ const roundRobin = (q) => {
     for (let j = 0; j < temp.length; j++) {
       if (temp[j].arrive == i) {
         come.push(temp[j].name);
-        if (come.length >= 2 && i > 0) {
-          let t = come[come.length - 2];
-          come[come.length - 2] = come[come.length - 1];
-          come[come.length - 1] = t;
+        if(come.length >= 2 && i > 0 && come.indexOf(ans[ans.length -1]) != -1){
+          let temp = come[come.length - 2];
+          come[come.length - 2] = come[come.length - 1]
+          come[come.length - 1] = temp
         }
       }
     }
@@ -105,24 +105,21 @@ const roundRobin = (q) => {
           exe += 1;
           if (exe == q) {
             if(!(execute[come[0]] == temp.find(e => e.name == come[0]).service)){
-            come.push(come[0]);
+              come.push(come[0]);
             }
             exe = 0;
             come.shift();
           }
-        } else {
-          come.shift();
-          i -= 1;
-        }
+        } 
       }
     }
   }
   queuePrint.push(Array.from(come));
   console.log(`Round Robin (q = ${q}): \t\t` + ans);
   getReport(data, ans);
-  queuePrint.map((el,index)=>{
-    console.log(index,":",el);
-  })
+  // queuePrint.map((el,index)=>{
+  //   console.log(index,":",el);
+  // })
 };
 
 const spn = () => {
@@ -351,12 +348,12 @@ const feedback2i = () => {
 };
 
 const main = () => {
-  fcfs();
+  // fcfs();
   roundRobin(1);
-  spn();
-  srt();
-  hrrn();
-  feedbackN(1);
-  feedback2i();
+  // spn();
+  // srt();
+  // hrrn();
+  // feedbackN(1);
+  // feedback2i();
 };
 main();
